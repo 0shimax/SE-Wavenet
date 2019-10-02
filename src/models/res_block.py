@@ -16,7 +16,7 @@ class ResBlock(nn.Module):
         self.se = SELayer(out_ch)
 
     def forward(self, x):
-        res_out = F.tanh(self.res_dcnv(x))
+        res_out = torch.tanh(self.res_dcnv(x))
         skip_out = F.relu(self.skip_dcnv(x))
 
         out = res_out * skip_out

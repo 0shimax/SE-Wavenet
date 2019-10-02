@@ -68,7 +68,8 @@ def train(args, model, optimizer, data_loader):
             targets = l_target.view(-1)
             series_loss = F.cross_entropy(output,
                                           targets,
-                                          ignore_index=-1)
+                                          ignore_index=-1,
+                                          reduction='none')
             with torch.no_grad():
                 N_series_loss = series_loss.detach().mean() + 3*series_loss.detach().std()
             series_loss = series_loss.mean()
@@ -79,7 +80,8 @@ def train(args, model, optimizer, data_loader):
             tatc_output = model.tatc()
             tatc_loss = F.cross_entropy(tatc_output,
                                         l_lack_labels.reshape(-1),
-                                        ignore_index=-1)
+                                        ignore_index=-1,
+                                        reduction='none')
             with torch.no_grad():
                 N_tatc_loss = tatc_loss.detach().mean() + 3*tatc_loss.detach().std()
             tatc_loss = tatc_loss.mean()
